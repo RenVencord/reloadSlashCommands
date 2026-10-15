@@ -1,6 +1,6 @@
 import definePlugin, { IconComponent } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
-import { Toasts } from "@webpack/common";
+import { showToast } from "@webpack/common";
 import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 
 const CommandIndexStore = findByPropsLazy("Zn", "ON", "XC", "Ay");
@@ -12,10 +12,9 @@ async function reloadCommands() {
     const store = CommandIndexStore.Ay;
 
     if (typeof fetch !== "function" || !store) {
-        Toasts.show({
-            type: Toasts.Type.FAILURE,
-            message: "SlashReload: internal Discord API not found",
-            id: Toasts.genId(),
+        showToast({
+            text: "SlashReload: internal Discord API not found",
+            variant: "critical",
         });
         return;
     }
@@ -40,10 +39,9 @@ async function reloadCommands() {
 
     await Promise.all(promises);
 
-    Toasts.show({
-        type: Toasts.Type.SUCCESS,
-        message: `Slash commands reloaded! (${promises.length} scopes)`,
-        id: Toasts.genId(),
+    showToast({
+        text: `Slash commands reloaded! (${promises.length} scopes)`,
+        variant: "success",
     });
 }
 
